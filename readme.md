@@ -1,5 +1,11 @@
-In this tutorial we set up the basic model of a 'Note'.
-I always like to start any project by creating some
-basic models. The Note is a class that inherits from
-models.Model in django which allows it to be persisted
-to a database using the Django ORM.
+In this tutorial we setup a serializer for our
+model. Serialization is the process of transforming
+data into a format that can be transmitted. In this
+case we serialize to JSON, which should be easy to
+understand because of its syntactic similarity to
+python. rest framework serializers inherit from the
+serializers.Serializer class and help us convert
+our django models back and forth from a transmissable
+form. In this case we will be using JSON. JSON should
+be fairly easy to understand because it has the
+exact same syntax as a python dictionary.
