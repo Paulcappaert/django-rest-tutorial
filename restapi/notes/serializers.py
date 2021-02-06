@@ -4,6 +4,8 @@ from .models import Note
 class NoteSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=50)
     content = serializers.CharField()
+    created_at = serializers.DateTimeField(read_only=True)
+    id = serializers.IntegerField(read_only=True)
 
     def create(self, validated_data):
         return Note.objects.create(
