@@ -8,4 +8,10 @@ from .models import Note
 
 class NoteViewSet(viewsets.ModelViewSet):
     serializer_class = NoteSerializer
-    queryset = Note.objects.all()
+    
+    def get_queryset(self):
+        queryset = Note.objects.all()
+        title = self.request.query_params.get('title')
+        if title is not None:
+            queryset = queryset.filter(title='title')
+        return queryset
