@@ -6,6 +6,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
+from notes.inner_models import Edits
+
 
 class Note(models.Model):
     title = models.CharField(max_length=50)
@@ -13,6 +15,23 @@ class Note(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
+
+    _edits = models.JSONField()
+
+    _inner_edits = None
+
+    @property
+    def edits(self):
+        if self._inner_edits is None:
+            self._inner_edits = Edits.parse_raw(self._edits)
+
+        return self._inner_edits
+
+    def save(self, *args, **kwargs):
+        if self._inner_edits:
+            self._edits = self._inner_edits.json()
+
+        return super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title
